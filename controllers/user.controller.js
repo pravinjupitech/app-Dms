@@ -3,7 +3,7 @@ import { User } from "../models/user.model.js";
 export const signup = async (req, res, next) => {
   try {
     const { email } = req.body;
-    const existUser = await User.findOne({ email });
+    const existUser = await User.findOne({ username });
     if (existUser) {
       return res
         .status(404)
@@ -27,8 +27,8 @@ export const signup = async (req, res, next) => {
 
 export const login = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email: email });
+    const { username, password } = req.body;
+    const user = await User.findOne({ username: username });
     if (!user) {
       return res.status(404).json({ message: "Not Found", status: false });
     }
