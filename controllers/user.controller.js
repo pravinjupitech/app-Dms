@@ -1,0 +1,47 @@
+import { User } from "../models/user.model.js";
+
+export const signup = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    const existUser = await User.findOne({ email });
+    if (existUser) {
+      return res
+        .status(404)
+        .json({ message: "Email Alredy Exist", status: false });
+    }
+    const user = await User.create(req.body);
+    return user
+      ? res.status(200).json({ message: "User Register", status: true })
+      : res
+          .status(404)
+          .json({ message: "Something Went Wrong", status: false });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Internal Server Error",
+      error: error.message,
+      status: false,
+    });
+  }
+};
+
+export const login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      return res.status(404).json({ message: "Not Found", status: false });
+    }
+    if (user.password !== password) {
+      return res.status(404).json({ message: "Bad Request", status: false });
+    }
+    res.status(200).json({ message: "Login Successfully", user, status: true });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Internal Server Error",
+      error: error.message,
+      status: false,
+    });
+  }
+};
