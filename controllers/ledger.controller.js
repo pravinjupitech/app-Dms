@@ -17,3 +17,19 @@ export const save = async (req, res, next) => {
     });
   }
 };
+
+export const view = async (req, res, next) => {
+  try {
+    const ledger = await Ledger.find({});
+    return ledger.length > 0
+      ? res.status(200).json({ message: "Data Found", status: true })
+      : res.status(404).json({ message: "Not Found", status: false });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Internal Server Error",
+      error: error.message,
+      status: false,
+    });
+  }
+};
