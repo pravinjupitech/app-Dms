@@ -30,7 +30,9 @@ export const login = async (req, res, next) => {
     const { username, password } = req.body;
     const user = await User.findOne({ username: username });
     if (!user) {
-      return res.status(404).json({ message: "Not Found", status: false });
+      return res
+        .status(404)
+        .json({ message: "Unauthorized User", status: false });
     }
     if (user.password !== password) {
       return res.status(404).json({ message: "Bad Request", status: false });
