@@ -11,7 +11,7 @@ export const signup = async (req, res, next) => {
     }
     const user = await User.create(req.body);
     return user
-      ? res.status(200).json({ message: "User Register", status: true })
+      ? res.status(200).json({ message: "User Registered", status: true })
       : res
           .status(404)
           .json({ message: "Something Went Wrong", status: false });
