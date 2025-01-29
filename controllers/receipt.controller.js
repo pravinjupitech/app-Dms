@@ -36,8 +36,10 @@ export const viewReceipt = async (req, res, next) => {
 
 export const dashboardTotal = async (req, res, next) => {
   try {
-    const creditReceipt = await Receipt.find({ mode: "receipt" });
-    const debitReceipt = await Receipt.find({ mode: "payment" });
+    const [creditReceipt, debitReceipt] = await Promise.all([
+      Receipt.find({ mode: "receipt" }),
+      Receipt.find({ mode: "payment" }),
+    ]);
     const totalCredit = creditReceipt.reduce((acc, num) => {
       return acc + num.amount;
     }, 0);
