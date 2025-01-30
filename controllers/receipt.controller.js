@@ -20,7 +20,7 @@ export const saveReceipt = async (req, res, next) => {
 
 export const viewReceipt = async (req, res, next) => {
   try {
-    const receipt = await Receipt.find({}).sort({ sortOrder: 1 });
+    const receipt = await Receipt.find();
     return receipt
       ? res.status(200).json({ message: "Data Found", receipt, status: true })
       : res.status(404).json({ message: "Not Found", status: false });
