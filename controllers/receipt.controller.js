@@ -36,15 +36,21 @@ export const viewReceipt = async (req, res, next) => {
 
 export const dashboardTotal = async (req, res, next) => {
   try {
-    const [creditReceipt, debitReceipt] = await Promise.all([
-      Receipt.find({ mode: "receipt" }),
-      Receipt.find({ mode: "payment" }),
-    ]);
-    const totalCredit = creditReceipt.reduce((acc, num) => {
-      return acc + num.amount;
+    const ExistingData = await Receipt.find({});
+    const flatData = ExistingData.flatMap((item) => item.receipts);
+
+    const totalCredit = flatData.reduce((acc, num) => {
+      if (num.mode === "receipt") {
+        return acc + num.amount;
+      }
+      return acc;
     }, 0);
-    const totaldebit = debitReceipt.reduce((acc, num) => {
-      return acc + num.amount;
+
+    const totaldebit = flatData.reduce((acc, num) => {
+      if (num.mode === "payment") {
+        return acc + num.amount;
+      }
+      return acc;
     }, 0);
     const totalBalance = totalCredit - totaldebit;
     res.status(200).json({
