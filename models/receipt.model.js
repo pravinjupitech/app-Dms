@@ -20,6 +20,9 @@ const receiptSchema = new mongoose.Schema(
         },
       },
     ],
+    created_by: {
+      type: String,
+    },
   },
   { timestamps: true }
 );

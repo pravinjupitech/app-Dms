@@ -20,7 +20,8 @@ export const saveReceipt = async (req, res, next) => {
 
 export const viewReceipt = async (req, res, next) => {
   try {
-    const receipt = await Receipt.find();
+    const { created_by } = req.params;
+    const receipt = await Receipt.find({ created_by: created_by });
     return receipt.length > 0
       ? res.status(200).json({ message: "Data Found", receipt, status: true })
       : res.status(404).json({ message: "Not Found", status: false });
@@ -36,7 +37,8 @@ export const viewReceipt = async (req, res, next) => {
 
 export const dashboardTotal = async (req, res, next) => {
   try {
-    const ExistingData = await Receipt.find({});
+    const { created_by } = req.params;
+    const ExistingData = await Receipt.find({ created_by: created_by });
     const flatData = ExistingData.flatMap((item) => item.receipts);
 
     const totalCredit = flatData.reduce((acc, num) => {

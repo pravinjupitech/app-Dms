@@ -7,6 +7,6 @@ import {
 const router = express.Router();
 
 router.post("/save", saveReceipt);
-router.get("/view", viewReceipt);
-router.get("/dashboard-balance", dashboardTotal);
+router.get("/view/:created_by", viewReceipt);
+router.get("/dashboard-balance/:created_by", dashboardTotal);
 export default router;

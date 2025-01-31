@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema(
     },
     IMENumber: {
       type: String,
-    },
+    }
   },
   {
     timestamps: true,
