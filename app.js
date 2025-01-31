@@ -10,7 +10,6 @@ const app = express();
 
 import UserRouter from "./routers/user.route.js";
 import ReceiptRouter from "./routers/receipt.route.js";
-import LedgerRouter from "./routers/ledger.route.js";
 app.use(cors());
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use(bodyParser.json({ limit: "50mb" }));
@@ -34,7 +33,6 @@ app.get("/process", (req, res) => {
 });
 app.use("/user", UserRouter);
 app.use("/receipt", ReceiptRouter);
-app.use("/ledger", LedgerRouter);
 
 mongoose
   .connect(process.env.DATABASE_URL, {

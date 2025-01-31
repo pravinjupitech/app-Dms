@@ -37,7 +37,11 @@ export const login = async (req, res, next) => {
     if (user.password !== password) {
       return res.status(404).json({ message: "Bad Request", status: false });
     }
-    res.status(200).json({ message: "Login Successfully", user, status: true });
+    res.status(200).json({
+      message: "Login Successfully",
+      user: { ...user.toObject(), password: undefined },
+      status: true,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({
