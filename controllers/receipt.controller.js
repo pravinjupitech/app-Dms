@@ -69,3 +69,67 @@ export const dashboardTotal = async (req, res, next) => {
     });
   }
 };
+
+export const updateReceipt = async (req, res, next) => {
+  try {
+    const { id, innerId } = req.params;
+    const existingReceipt = await Receipt.findById(id);
+    if (existingReceipt) {
+      const findIndex = existingReceipt.receipts.findIndex(
+        (item) => item._id.toString() === innerId
+      );
+      if (findIndex !== -1) {
+        existingReceipt.receipts[findIndex] = {
+          ...existingReceipt.receipts[findIndex]._doc,
+          ...req.body,
+        };
+        await existingReceipt.save();
+        res.status(200).json({ message: "Data Updated", status: true });
+      } else {
+        return res
+          .status(404)
+          .json({ message: " Inner Data Not Found", status: false });
+      }
+    } else {
+      res.status(404).json({ message: "Not Found", status: false });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "Internal Server Error",
+      error: error.message,
+      status: false,
+    });
+  }
+};
+
+export const deleteReceipt = async (req, res, next) => {
+  try {
+    const { id, innerId } = req.params;
+    const existingReceipt = await Receipt.findById(id);
+    if (existingReceipt) {
+      const findIndex = existingReceipt.receipts.findIndex(
+        (item) => item._id.toString() === innerId
+      );
+      if (findIndex !== -1) {
+        existingReceipt.receipts.splice(findIndex, 1);
+        await existingReceipt.save();
+        if (existingReceipt.receipts.length === 0) {
+          await Receipt.findByIdAndDelete(id);
+          res.status(200).json({ message: "Date Deleted", status: true });
+        }
+      } else {
+        res.status(404).json({ messae: "Inner Data Not Found", status: false });
+      }
+    } else {
+      res.status(404).json({ message: "Not Found", status: false });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Internal Server Error",
+      error: error.message,
+      status: false,
+    });
+  }
+};
