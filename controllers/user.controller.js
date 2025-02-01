@@ -28,7 +28,7 @@ export const signup = async (req, res, next) => {
 export const login = async (req, res, next) => {
   try {
     const { username, password } = req.body;
-    const user = await User.findOne({ username: username });
+    const user = await User.findOne({ username: username, status: "Active" });
     if (!user) {
       return res
         .status(404)

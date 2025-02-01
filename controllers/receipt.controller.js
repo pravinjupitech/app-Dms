@@ -118,6 +118,7 @@ export const deleteReceipt = async (req, res, next) => {
           await Receipt.findByIdAndDelete(id);
           res.status(200).json({ message: "Date Deleted", status: true });
         }
+        res.status(200).json({ message: "Inner Data Deleted", status: true });
       } else {
         res.status(404).json({ messae: "Inner Data Not Found", status: false });
       }
@@ -133,3 +134,7 @@ export const deleteReceipt = async (req, res, next) => {
     });
   }
 };
+
+/*
+
+*/
