@@ -116,7 +116,7 @@ export const deleteReceipt = async (req, res, next) => {
         await existingReceipt.save();
         if (existingReceipt.receipts.length === 0) {
           await Receipt.findByIdAndDelete(id);
-          res.status(200).json({ message: "Date Deleted", status: true });
+          res.status(200).json({ message: "Data Deleted", status: true });
         }
         res.status(200).json({ message: "Inner Data Deleted", status: true });
       } else {
