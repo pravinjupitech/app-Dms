@@ -101,7 +101,7 @@ export const updateReceipt = async (req, res, next) => {
       status: false,
     });
   }
-};
+}; //
 
 export const deleteReceipt = async (req, res, next) => {
   try {
@@ -134,7 +134,3 @@ export const deleteReceipt = async (req, res, next) => {
     });
   }
 };
-
-/*
-
-*/

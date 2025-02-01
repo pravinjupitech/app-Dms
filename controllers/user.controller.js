@@ -1,4 +1,5 @@
 import { User } from "../models/user.model.js";
+import transporter from "../services/email.js";
 
 export const signup = async (req, res, next) => {
   try {
@@ -86,5 +87,110 @@ export const updateUserstatus = async (req, res, next) => {
       error: error.message,
       status: false,
     });
+  }
+};
+
+const resetOTP = {};
+export const forgetPassword = async (request, response, next) => {
+  try {
+    const { email } = request.body;
+    const otp = Math.floor(100000 + Math.random() * 900000);
+    resetOTP[email] = otp;
+    const user = await User.findOne({ email });
+    if (!user) {
+      return response.status(404).json({ message: "User not found" });
+    }
+    var mailOptions = {
+      from: process.env.Email,
+      to: email,
+      subject: "Password Reset Confirmation",
+      html: `
+        <div style="font-family: Helvetica, Arial, sans-serif; max-width: 600px; margin: 20px auto; padding: 20px; border: 1px solid #eee; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); line-height: 1.5;">
+          <div style="text-align: center; margin-bottom: 20px;">
+            <h1 style="color: #00466a; font-size: 24px; margin: 0;">DMS SERVICES</h1>
+            <p style="font-size: 16px; color: #333;">Password Reset Successful</p>
+          </div>
+          <div style="padding: 10px 20px; font-size: 14px; color: #555;">
+            <p>Dear User,</p>
+            <p>Your password for the <strong>DMS SERVICES</strong> account has been successfully reset. Please use the following OTP to proceed:</p>
+            <div style="text-align: center; margin: 20px 0;">
+              <h2 style="display: inline-block; padding: 10px 20px; background-color: #00466a; color: white; border-radius: 5px; font-size: 22px; letter-spacing: 1.5px;">${otp}</h2>
+            </div>
+            <p>If you did not request this change, please contact our support team immediately.</p>
+            <p>Regards,<br><strong>Dms Services</strong></p>
+          </div>
+          <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
+          <div style="text-align: center; font-size: 12px; color: #aaa;">
+            <p>This is an automated email. Please do not reply.</p>
+          </div>
+        </div>
+      `,
+    };
+
+    await transporter.sendMail(mailOptions, (error, info) => {
+      !error
+        ? response.status(201).json({
+            doctor: user,
+            message: "send otp on email",
+            status: true,
+          })
+        : console.log(error) ||
+          response.json({ error: "something went wrong" });
+    });
+  } catch (error) {
+    console.error(error);
+    response.status(500).json({ message: "Internal Server error" });
+  }
+};
+
+export const resetOtpVerify = async (req, res, next) => {
+  try {
+    const { otp, email } = req.body;
+    if (otp == resetOTP[email]) {
+      delete resetOTP[email];
+      return res
+        .status(201)
+        .json({ message: "otp matched successfully", status: true });
+    } else {
+      return res.status(400).json({ error: "Invalid otp", status: false });
+    }
+  } catch (err) {
+    console.log(err);
+    return res
+      .status(500)
+      .json({ message: "Internal server error...", status: false });
+  }
+};
+
+export const updatePassword = async (request, response, next) => {
+  try {
+    const userId = request.params.id;
+    if (request.body.password !== request.body.confirmPassword) {
+      return response
+        .status(400)
+        .json({ error: "Password don't match", status: false });
+    } else {
+      // request.body.password = await bcryptjs.hash(
+      //   request.body.password,
+      //   await bcryptjs.genSalt(10)
+      // );
+      const user = await User.updateMany(
+        { _id: userId },
+        { password: request.body.password },
+        { new: true }
+      );
+      if (user.modifiedCount > 0)
+        return response
+          .status(200)
+          .json({ Message: "Password Updated Success", status: true });
+      return response
+        .status(400)
+        .json({ Message: "Unauthorized User...", status: false });
+    }
+  } catch (err) {
+    console.log(err);
+    return response
+      .status(500)
+      .json({ Message: "Internal Server Error...", status: false });
   }
 };
