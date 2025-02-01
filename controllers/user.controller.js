@@ -51,3 +51,40 @@ export const login = async (req, res, next) => {
     });
   }
 };
+
+export const userList = async (req, res, next) => {
+  try {
+    const users = await User.find(); //.select("-password");
+    return users.length > 0
+      ? res.status(200).json({ message: "Data Found", users, status: true })
+      : res.status(404).json({ message: "Not Found", status: false });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Internal Server Error",
+      error: error.message,
+      status: false,
+    });
+  }
+};
+
+export const updateUserstatus = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ message: "Not Found", status: false });
+    }
+    user.status = status;
+    await user.save();
+    res.status(200).json({ message: "Status Updated", status: true });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Internal Server Error",
+      error: error.message,
+      status: false,
+    });
+  }
+};
