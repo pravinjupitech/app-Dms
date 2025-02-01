@@ -7,12 +7,19 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
     },
+    role: {
+      type: String,
+    },
     IPAddress: {
       type: String,
     },
     IMENumber: {
       type: String,
-    }
+    },
+    status: {
+      type: String,
+      default: "Active",
+    },
   },
   {
     timestamps: true,
