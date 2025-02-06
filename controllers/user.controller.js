@@ -56,6 +56,11 @@ export const login = async (req, res, next) => {
 export const userList = async (req, res, next) => {
   try {
     const users = await User.find(); //.select("-password");
+    let date = new Date();
+    let attendanced = users.filter(
+      (item) => new Date(item.createdAt) <= new Date(date)
+    );
+    console.log(attendanced);
     return users.length > 0
       ? res.status(200).json({ message: "Data Found", users, status: true })
       : res.status(404).json({ message: "Not Found", status: false });
