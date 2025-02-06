@@ -18,5 +18,5 @@ router.post("/update-status/:id", updateUserstatus);
 router.post("/forget-password", forgetPassword);
 router.post("/reset-otp", resetOtpVerify);
 router.put("/update-password/:id", updatePassword);
-router.put("/user/update-user/:id", updateUser);
+router.put("/update-user/:id", updateUser);
 export default router;
