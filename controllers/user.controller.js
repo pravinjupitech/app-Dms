@@ -195,18 +195,18 @@ export const updatePassword = async (request, response, next) => {
   }
 };
 
-export const updateUser=async(req,res,next)=>{
+export const updateUser = async (req, res, next) => {
   try {
-    const{id}=req.params;
-    const updatedData=req.body;
-    const user=await User.findById(id)
-    if(!user){
-      res.status(404).json({message:"Not Found",status:false})
+    const { id } = req.params;
+    const updatedData = req.body;
+    const user = await User.findById(id);
+    if (!user) {
+      res.status(404).json({ message: "Not Found", status: false });
     }
-    await User.findByIdAndUpdate(id,updatedData,{new:true});
-    res.status(200).json({message:"Data Updated",status:true})
+    await User.findByIdAndUpdate(id, updatedData, { new: true });
+    res.status(200).json({ message: "Data Updated", status: true });
   } catch (error) {
-    console.log(error)
-    res.status(500).json({message:"Internal Server Error",status:false})
+    console.log(error);
+    res.status(500).json({ message: "Internal Server Error", status: false });
   }
-}
+};
