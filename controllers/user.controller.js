@@ -215,3 +215,10 @@ export const updateUser = async (req, res, next) => {
     res.status(500).json({ message: "Internal Server Error", status: false });
   }
 };
+
+/*  
+absurd-> betuka ,observe-> nirikshan ,imitation-> nakal,at all-> bilkul bhi,cursing-> apsabdh, etiquette,courtesy-> shistachar, wider-> vyapak,willingly-> svechha se ,conciseness-> sanshipti  
+
+
+
+*/
