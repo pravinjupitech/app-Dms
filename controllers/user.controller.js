@@ -135,7 +135,7 @@ export const forgetPassword = async (request, response, next) => {
     await transporter.sendMail(mailOptions, (error, info) => {
       !error
         ? response.status(201).json({
-            doctor: user,
+            user: user,
             message: "send otp on email",
             status: true,
           })
