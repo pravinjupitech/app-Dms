@@ -106,7 +106,7 @@ export const forgetPassword = async (request, response, next) => {
       return response.status(404).json({ message: "User not found" });
     }
     var mailOptions = {
-      from: process.env.Email,
+      from: process.env.EMAIL,
       to: email,
       subject: "Password Reset Confirmation",
       html: `
