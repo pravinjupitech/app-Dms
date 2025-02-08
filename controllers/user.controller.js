@@ -99,7 +99,6 @@ const resetOTP = {};
 export const forgetPassword = async (request, response, next) => {
   try {
     const { email } = request.body;
-    console.log(request.body);
     const otp = Math.floor(100000 + Math.random() * 900000);
     resetOTP[email] = otp;
     const user = await User.findOne({ email });
