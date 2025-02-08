@@ -8,6 +8,7 @@ import {
   updateUser,
   updateUserstatus,
   userList,
+  viewByIdUser,
 } from "../controllers/user.controller.js";
 const router = express.Router();
 
@@ -19,4 +20,5 @@ router.post("/forget-password", forgetPassword);
 router.post("/reset-otp", resetOtpVerify);
 router.put("/update-password/:id", updatePassword);
 router.put("/update-user/:id", updateUser);
+router.get("/view-by-id/:id", viewByIdUser);
 export default router;

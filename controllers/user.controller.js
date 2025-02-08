@@ -56,11 +56,6 @@ export const login = async (req, res, next) => {
 export const userList = async (req, res, next) => {
   try {
     const users = await User.find(); //.select("-password");
-    let date = new Date();
-    let attendanced = users.filter(
-      (item) => new Date(item.createdAt) <= new Date(date)
-    );
-    console.log(attendanced);
     return users.length > 0
       ? res.status(200).json({ message: "Data Found", users, status: true })
       : res.status(404).json({ message: "Not Found", status: false });
@@ -213,5 +208,22 @@ export const updateUser = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Internal Server Error", status: false });
+  }
+};
+
+export const viewByIdUser = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findById(id);
+    return user
+      ? res.status(200).json({ message: "Data Found", user, status: true })
+      : res.status(404).json({ message: "Not Found", status: false });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Internal Server Error",
+      error: error.message,
+      statua: false,
+    });
   }
 };
