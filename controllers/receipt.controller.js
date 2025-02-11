@@ -134,3 +134,18 @@ export const deleteReceipt = async (req, res, next) => {
     });
   }
 };
+
+export const LadgerUpdate = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const updatedData = req.body;
+    res.status(404).json({ message: "", status: false });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Internal Server Error",
+      error: error.message,
+      status: false,
+    });
+  }
+};
