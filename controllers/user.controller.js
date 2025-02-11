@@ -139,7 +139,11 @@ export const forgetPassword = async (request, response, next) => {
     });
   } catch (error) {
     console.error(error);
-    response.status(500).json({ message: "Internal Server error" });
+    response.status(500).json({
+      message: "Internal Server error",
+      error: error.message,
+      status: false,
+    });
   }
 };
 
@@ -156,9 +160,11 @@ export const resetOtpVerify = async (req, res, next) => {
     }
   } catch (err) {
     console.log(err);
-    return res
-      .status(500)
-      .json({ message: "Internal server error...", status: false });
+    return res.status(500).json({
+      message: "Internal server error...",
+      error: err.message,
+      status: false,
+    });
   }
 };
 
@@ -189,9 +195,11 @@ export const updatePassword = async (request, response, next) => {
     }
   } catch (err) {
     console.log(err);
-    return response
-      .status(500)
-      .json({ Message: "Internal Server Error...", status: false });
+    return response.status(500).json({
+      Message: "Internal Server Error...",
+      error: err.message,
+      status: false,
+    });
   }
 };
 
@@ -207,7 +215,11 @@ export const updateUser = async (req, res, next) => {
     res.status(200).json({ message: "Data Updated", status: true });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Internal Server Error", status: false });
+    res.status(500).json({
+      message: "Internal Server Error",
+      error: error.message,
+      status: false,
+    });
   }
 };
 
