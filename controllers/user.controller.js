@@ -3,8 +3,8 @@ import transporter from "../services/email.js";
 
 export const signup = async (req, res, next) => {
   try {
-    const { username } = req.body;
-    const existUser = await User.findOne({ username });
+    const { email } = req.body;
+    const existUser = await User.findOne({ email });
     if (existUser) {
       return res
         .status(404)
@@ -227,5 +227,3 @@ export const viewByIdUser = async (req, res, next) => {
     });
   }
 };
-
-
