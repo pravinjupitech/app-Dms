@@ -235,7 +235,7 @@ export const viewByIdUser = async (req, res, next) => {
     res.status(500).json({
       message: "Internal Server Error",
       error: error.message,
-      statua: false,
+      status: false,
     });
   }
 };
